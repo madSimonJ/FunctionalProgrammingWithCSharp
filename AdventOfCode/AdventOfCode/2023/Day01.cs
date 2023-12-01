@@ -6,18 +6,18 @@ namespace AdventOfCode._2023
 {
     public class Day01
     {
-        private static Regex Alpha = new Regex("[0-9]");
-        private static Regex FirstNumeral = new Regex("(\\d|one|two|three|four|five|six|seven|eight|nine)");
-        private static Regex LastNumeral = new Regex("(\\d|one|two|three|four|five|six|seven|eight|nine)", RegexOptions.RightToLeft);
+        private static Regex Digit = new("[0-9]");
+        private static Regex FirstNumeral = new("(\\d|one|two|three|four|five|six|seven|eight|nine)");
+        private static Regex LastNumeral = new("(\\d|one|two|three|four|five|six|seven|eight|nine)", RegexOptions.RightToLeft);
 
 
         private static int CalibrationValue(string input) =>
-            Alpha.Matches(input)
+            Digit.Matches(input)
                 .Map(x => (
-                    First: int.Parse(x.First().ToString()),
+                    First: int.Parse(x.First().ToString()) * 10,
                     Last: int.Parse(x.Last().ToString())
                 ))
-                .Map(x => (x.First * 10) + x.Last);
+                .Map(x => x.First  + x.Last);
 
         private static string WordOrDigitToInt(string input) => input switch
         {
