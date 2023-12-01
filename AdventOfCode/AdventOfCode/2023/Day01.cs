@@ -98,7 +98,7 @@ zoneight234
         {
             var input = File.ReadAllLines("./2023/Day01Input.txt");
             var answer = input.Sum(CalibrationValue2);
-            answer.Should().NotBe(53254);
+            answer.Should().Be(53221);
         }
     }
 }
