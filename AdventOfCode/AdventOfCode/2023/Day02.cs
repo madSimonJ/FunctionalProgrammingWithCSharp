@@ -17,8 +17,6 @@ namespace AdventOfCode._2023
         {
             var id = new Regex("(?<=Game )(.*)(?=:)").Match(input).Map(x => int.Parse(x.Value));
 
-            var ballQty = new Regex("([0-9]) ([a-z]*)");
-
             var turns = input.Split(":")[1].Split(";");
             var balls = turns.Select(x => x.Split(", "))
                 .SelectMany(x => x.Select(y => y.Trim().Split(" ")))
