@@ -16,5 +16,11 @@ namespace AdventOfCode.Common
 
         public static string JoinWith(this IEnumerable<string> @this, string j) =>
             string.Join(j, @this);
+
+        public static string SectionBetweenCharacters(this string @this, string from, string to) =>
+            new Regex($"(?<=\\{from})(.*?)(?=\\{to})").Match(@this).Value;
+
+        public static string SectionAfterCharacter(this string @this, string from) =>
+            new Regex($"[^{from}]*$").Match(@this).Value;
     }
 }
