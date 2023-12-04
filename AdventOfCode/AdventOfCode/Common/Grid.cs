@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoreLinq;
 
 namespace AdventOfCode.Common
 {
@@ -17,6 +18,35 @@ namespace AdventOfCode.Common
 
     public record Grid<T>
     {
+        public GridPoint<T> this[int x, int y] => Points.SingleOrDefault(z => z.X == x && z.Y == y);
+
+        public Grid(string rawInput, string lineSplit, string cellSplit, Func<int, int, string, T> valueFactor)
+        {
+            var g = rawInput.Split(lineSplit)
+                .SelectMany((l, y) => (
+                    l.Split(cellSplit).Select((r, x) => new GridPoint<T>()
+                        { Value = valueFactor(x, y, r), X = x, Y = y })
+                )).ToArray();
+
+            Points = g;
+            MaxX = g.Max(x => x.X);
+            MaxY = g.Max(y => y.Y);
+        }
+
+
+        public Grid(string rawInput, string lineSplit, Func<int, int, string, T> valueFactor)
+        {
+            var g = rawInput.Split(lineSplit)
+                .SelectMany((l, y) => (
+                    l.ToArray().Select(x => x.ToString()).Select((r, x) => new GridPoint<T>()
+                        { Value = valueFactor(x, y, r), X = x, Y = y })
+                )).ToArray();
+
+            Points = g;
+            MaxX = g.Max(x => x.X);
+            MaxY = g.Max(y => y.Y);
+        }
+
         public Grid(int sizeX, int sizeY, Func<int, int, T> valueFactory)
         {
             MaxX = sizeX;
@@ -38,6 +68,21 @@ namespace AdventOfCode.Common
 
     public static class GridExtensions
     {
+        public static IEnumerable<GridPoint<T>> GetNeighbours<T>(this Grid<T> @this, int x, int y) =>
+            @this.Points.Where(z =>
+               z.X.IsBetween(x - 1, x + 1) &&
+               z.Y.IsBetween(y - 1, y + 1)
+                &&
+                !(z.X == x && z.Y == y)
+            );
+
+        public static IEnumerable<GridPoint<T>> GetNeighbours<T>(this Grid<T> @this, int x1, int y1, int x2, int y2) =>
+            @this.Points.Where(z =>
+                z.X.IsBetween(x1 - 1, x2 + 1) &&
+                z.Y.IsBetween(y1 - 1, y2 + 1) &&
+                !(z.X >= x1 && z.Y >= y1 && z.X <= x2 && z.Y <= y2)
+            );
+
         public static Grid<T> UpdateGrid<T>(this Grid<T> @this, Coord from, Coord to, Func<T, int, int, T> update)
         {
             var returnValue = @this with

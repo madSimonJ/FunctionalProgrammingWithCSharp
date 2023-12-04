@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Microsoft.VisualBasic;
 
 namespace AdventOfCode.Common
 {
@@ -12,5 +13,8 @@ namespace AdventOfCode.Common
             times == -1
                 ? reg.Replace(@this, replacement)
                 : reg.Replace(@this, replacement, times);
+
+        public static string JoinWith(this IEnumerable<string> @this, string j) =>
+            string.Join(j, @this);
     }
 }

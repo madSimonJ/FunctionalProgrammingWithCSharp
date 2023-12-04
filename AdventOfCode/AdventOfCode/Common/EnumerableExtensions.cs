@@ -23,6 +23,14 @@
         public static bool ConsecutiveAny<T>(this IEnumerable<T> @this, Func<T, T, bool> condition) =>
             @this.ToArray().Map(x => x.Zip(x.Skip(1)).Select(y => condition(y.First, y.Second)).FirstOrDefault(z => z));
 
+        public static IEnumerable<T2> ConsecutiveSelect<T1, T2>(this IEnumerable<T1> @this, Func<T1, T1, T2> f)
+        {
+            var thisArr = @this.ToArray();
+            var thisArrCompare = thisArr.Skip(1).Append(default(T1));
+            var newEnumerable = thisArr.Zip(thisArrCompare).Select(x => f(x.First, x.Second));
+            return newEnumerable;
+        }
+
         public static T IterateUntil<T>(this T @this, Func<T, bool> end, Func<T, T> iter)
         {
             var curr = @this;
