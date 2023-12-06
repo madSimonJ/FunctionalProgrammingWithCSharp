@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using Microsoft.VisualBasic;
 
 namespace AdventOfCode.Common
 {
@@ -22,5 +21,14 @@ namespace AdventOfCode.Common
 
         public static string SectionAfterCharacter(this string @this, string from) =>
             new Regex($"[^{from}]*$").Match(@this).Value;
+
+        public static int ToInt(this string @this) =>
+            int.Parse(@this);
+
+        public static uint ToUInt(this string @this) =>
+            uint.Parse(@this);
+
+        public static long ToLong(this string @this) =>
+            long.Parse(@this);
     }
 }
