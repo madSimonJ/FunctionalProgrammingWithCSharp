@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Common
+﻿using Newtonsoft.Json.Linq;
+
+namespace AdventOfCode.Common
 {
 
 
@@ -93,5 +95,9 @@
             var s = returnValue.Points.Sum(x => x.Value as int?);
             return returnValue;
         }
+
+        public static Coord GetValueLocation<T>(this Grid<T> @this, T value) =>
+            @this.Points.FirstOrDefault(x => EqualityComparer<T>.Default.Equals(x.Value, value))
+                .Map(x => new Coord { X = x.X, Y = x.Y });
     }
 }
