@@ -99,5 +99,11 @@ namespace AdventOfCode.Common
         public static Coord GetValueLocation<T>(this Grid<T> @this, T value) =>
             @this.Points.FirstOrDefault(x => EqualityComparer<T>.Default.Equals(x.Value, value))
                 .Map(x => new Coord { X = x.X, Y = x.Y });
+
+        public static IEnumerable<GridPoint<T>> GetRow<T>(this Grid<T> @this, int rowNo) =>
+            @this.Points.Where(x => x.Y == rowNo);
+
+        public static IEnumerable<GridPoint<T>> GetColumn<T>(this Grid<T> @this, int colNo) =>
+            @this.Points.Where(x => x.X == colNo);
     }
 }

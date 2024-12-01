@@ -263,11 +263,11 @@ LJ...";
             );
 
             var pipeLocations = pipeTraverse.Trail.ToArray();
-            var containedLocations = grid.Points.Where(x =>
-            {
-                var neighbours = new[] { grid[x.X + 1, x.Y], grid[x.X - 1, x.Y], grid[x.X,  x.Y + 1], grid[x.X, x.Y - 1] };
-                var contained = 
-            });
+            //var containedLocations = grid.Points.Where(x =>
+            //{
+            //    var neighbours = new[] { grid[x.X + 1, x.Y], grid[x.X - 1, x.Y], grid[x.X,  x.Y + 1], grid[x.X, x.Y - 1] };
+            //    var contained = 
+            //});
 
         }
     }
