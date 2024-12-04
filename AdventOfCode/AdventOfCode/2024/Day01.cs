@@ -120,7 +120,7 @@ namespace AdventOfCode._2024
         {
             var input = File.ReadAllText("./2024/Day01input.txt");
             var answer = Day01Solution.CalculateAnswer(input);
-            answer.Should().Be(11);
+            answer.Should().Be(1341714);
         }
 
         [Fact]
