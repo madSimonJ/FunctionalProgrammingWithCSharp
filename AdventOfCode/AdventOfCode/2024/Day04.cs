@@ -69,7 +69,6 @@
             input.Split("\r\n")
                 .SelectMany((s, y) => s.Select((v, x) => (X: x, Y: y, V: v)))
                 .ToDictionary(x => (x.X, x.Y), x => x.V);
-
         public static int CountXmases(IDictionary<(int,int),char> grid, IEnumerable<(int,int)> startingPoints, int maxX, int maxY, bool isSearchXDashMas = false)
         {
             var searches = from x in startingPoints

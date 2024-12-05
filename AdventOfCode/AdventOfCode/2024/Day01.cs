@@ -111,7 +111,7 @@ namespace AdventOfCode._2024
 3   9
 3   3";
             var actualAnswer = Day01Solution.CalculateAnswer(input);
-            actualAnswer.Should().Be(1341714);
+            actualAnswer.Should().Be(11);
         }
 
 
