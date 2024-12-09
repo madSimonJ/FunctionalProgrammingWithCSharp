@@ -55,6 +55,17 @@ public static class EnumerableExtensions
         return curr;
     }
 
+    public static T IterateWhile<T>(this T @this, Func<T, bool> cont, Func<T,T> iter)
+    {
+        var curr = @this;
+        while( cont(curr) )
+        {
+            curr = iter(curr);
+        }
+
+        return curr;
+    }
+
     public static IEnumerable<T2> Pair<T1, T2>(this IEnumerable<T1> @this, Func<T1, T1, T2> f) =>
         @this.Select((x, i) => (x, i / 2))
             .GroupBy(x => x.Item2)
