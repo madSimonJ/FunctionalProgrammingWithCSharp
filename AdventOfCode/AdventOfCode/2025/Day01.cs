@@ -2,39 +2,23 @@
 
 namespace AdventOfCode._2025;
 
-
 public static class Day01Solution
 {
-    public static IEnumerable<int> ParseInstructions(string instructions) =>
-        instructions.Split(Environment.NewLine)
-        .Select(x => (Direction: x[0], Quantity: x[1..]))
-        .Select(x => int.Parse(x.Quantity) * (x.Direction == 'R' ? 1 : -1));
-
-    public static IEnumerable<int> ParseInstructions2(string instructions) =>
-        from line in instructions.Split(Environment.NewLine)
-        let direction = line[0] == 'R' ? 1 : -1
-        let quantity = int.Parse(line[1..])
-        from delta in Enumerable.Range(0, quantity)
-        select direction;
-
-    public static int UpdateDial(int currentValue, int instruction) =>
-        (currentValue + instruction + 100) % 100;
+    public static IEnumerable<int> ParseInstructions(string instructions, bool includeAllZeroPasses = false) =>
+               from line in instructions.Split(Environment.NewLine)
+               let direction = line[0] == 'R' ? 1 : -1
+               let quantity = int.Parse(line[1..])
+               from delta in Enumerable.Repeat(0, includeAllZeroPasses ? quantity : 1)
+               select direction * (includeAllZeroPasses ? 1 : quantity);
 
     public static IEnumerable<int> ScanDialLocations(int startingLocation, IEnumerable<int> instructions) =>
         instructions
-        .Scan(startingLocation, UpdateDial);
+        .Scan(startingLocation, (acc, x) => (acc + x + 100) % 100);
 
-    public static int CalculatePassword(string instructions) =>
-        Day01Solution.ParseInstructions(instructions)
-        .Map(x => Day01Solution.ScanDialLocations(50, x))
+    public static int CalculatePassword(string instructions, bool includeAllZeroPasses = false) =>
+        ParseInstructions(instructions, includeAllZeroPasses)
+        .Map(x => ScanDialLocations(50, x))
         .Count(x => x == 0);
-
-    public static int CalculatePassword2(string instructions) =>
-        Day01Solution.ParseInstructions2(instructions)
-        .Map(x => Day01Solution.ScanDialLocations(50, x))
-        .Count(x => x == 0);
-
-
 }
 
 public class Day01_Tests
@@ -57,21 +41,8 @@ L82";
     }
 
 
-    [Theory]
-    [InlineData(11, 8, 19)]
-    [InlineData(19, -19, 0)]
-    [InlineData(0, -1, 99)]
-    [InlineData(99, 1, 0)]
-    [InlineData(5, -10, 95)]
-    [InlineData(95, 5, 0)]
-    public void Day01_Test02(int currentDial, int move, int expectedDial)
-    {
-        var calculatedDial = Day01Solution.UpdateDial(currentDial, move);
-        calculatedDial.Should().Be(expectedDial);
-    }
-
     [Fact]
-    public void Day01_Test03()
+    public void Day01_Test02()
     {
         var input = @"L68
 L30
@@ -92,7 +63,7 @@ L82";
     }
 
     [Fact]
-    public void Day01_Test04()
+    public void Day01_Test03()
     {
         var input = @"L68
 L30
@@ -120,10 +91,10 @@ L82";
     }
 
     [Fact]
-    public void Day01_Test05()
+    public void Day01_Test04()
     {
         var answer =
-            Day01Solution.ParseInstructions2("L68");
+            Day01Solution.ParseInstructions("L68", true);
 
         answer.Should().AllSatisfy(x => x.Should().Be(-1));
         answer.Should().HaveCount(68);
@@ -131,7 +102,7 @@ L82";
 
 
     [Fact]
-    public void Day01_Test06()
+    public void Day01_Test05()
     {
         var input = @"L68
 L30
@@ -144,7 +115,7 @@ L99
 R14
 L82";
         var answer =
-            Day01Solution.CalculatePassword2(input);
+            Day01Solution.CalculatePassword(input, true);
 
         answer.Should().Be(6);
     }
@@ -154,7 +125,7 @@ L82";
     {
         var input = File.ReadAllText("./2025/Day01input.txt");
         var answer =
-            Day01Solution.CalculatePassword2(input);
+            Day01Solution.CalculatePassword(input, true);
         answer.Should().Be(6695);
     }
 }
