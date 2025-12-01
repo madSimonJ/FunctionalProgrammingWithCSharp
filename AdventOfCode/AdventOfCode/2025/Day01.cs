@@ -11,13 +11,9 @@ public static class Day01Solution
                from delta in Enumerable.Repeat(0, includeAllZeroPasses ? quantity : 1)
                select direction * (includeAllZeroPasses ? 1 : quantity);
 
-    public static IEnumerable<int> ScanDialLocations(int startingLocation, IEnumerable<int> instructions) =>
-        instructions
-        .Scan(startingLocation, (acc, x) => (acc + x + 100) % 100);
-
     public static int CalculatePassword(string instructions, bool includeAllZeroPasses = false) =>
         ParseInstructions(instructions, includeAllZeroPasses)
-        .Map(x => ScanDialLocations(50, x))
+        .Scan(50, (acc, x) => (acc + x + 100) % 100)
         .Count(x => x == 0);
 }
 
@@ -40,30 +36,8 @@ L82";
         parsedInput.Should().BeEquivalentTo([ -68, -30, 48, -5, 60, -55, -1, -99, 14, -82]);
     }
 
-
     [Fact]
     public void Day01_Test02()
-    {
-        var input = @"L68
-L30
-R48
-L5
-R60
-L55
-L1
-L99
-R14
-L82";
-        var answer = 
-            Day01Solution.ParseInstructions(input)
-            .Map(x => Day01Solution.ScanDialLocations(50, x))
-            .ToArray();
-
-        answer.Should().BeEquivalentTo([50, 82, 52, 0, 95, 55, 0, 99, 0, 14, 32]);
-    }
-
-    [Fact]
-    public void Day01_Test03()
     {
         var input = @"L68
 L30
@@ -91,7 +65,7 @@ L82";
     }
 
     [Fact]
-    public void Day01_Test04()
+    public void Day01_Test03()
     {
         var answer =
             Day01Solution.ParseInstructions("L68", true);
@@ -102,7 +76,7 @@ L82";
 
 
     [Fact]
-    public void Day01_Test05()
+    public void Day01_Test04()
     {
         var input = @"L68
 L30
