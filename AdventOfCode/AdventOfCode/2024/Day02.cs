@@ -1,13 +1,4 @@
-﻿using AdventOfCode.Common;
-using MoreLinq.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit.Sdk;
-
-namespace AdventOfCode._2024
+﻿namespace AdventOfCode._2024
 {
     public static class Day02Solution
     {

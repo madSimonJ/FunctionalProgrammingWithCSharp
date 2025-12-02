@@ -79,7 +79,7 @@ public static class UEnumerable
 {
     public static IEnumerable<uint> URange(uint start, uint count)
     {
-        return count == 0 ? Enumerable.Empty<uint>() : new URangeIterator(start, count);
+        return count == 0 ? [] : new URangeIterator(start, count);
     }
 
     private sealed class URangeIterator : IEnumerable<uint>
@@ -102,18 +102,12 @@ public static class UEnumerable
         }
     }
 
-    private sealed class URangeEnumerator : IEnumerator<uint>
+    private sealed class URangeEnumerator(uint start, uint count) : IEnumerator<uint>
     {
-        private uint _start;
-        private uint _count;
+        private readonly uint _start = start;
+        private readonly uint _count = count;
         private uint iterationNum = 0;
         private bool started = false;
-
-        public URangeEnumerator(uint start, uint count)
-        {
-            _start = start;
-            _count = count;
-        }
 
         public bool MoveNext()
         {
@@ -144,3 +138,62 @@ public static class UEnumerable
         }
     }
 }
+
+public static class LEnumerable
+{
+    public static IEnumerable<long> LRange(long start, long count)
+    {
+        return count == 0 ? [] : new LRangeIterator(start, count);
+    }
+
+    private sealed class LRangeIterator(long start, long count) : IEnumerable<long>
+    {
+        private readonly long _start = start;
+        private readonly long _count = count;
+
+        public IEnumerator<long> GetEnumerator() =>
+            new LRangeEnumerator(_start, _count);
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    private sealed class LRangeEnumerator(long start, long count) : IEnumerator<long>
+    {
+        private readonly long _start = start;
+        private readonly long _count = count;
+        private long iterationNum = 0;
+        private bool started = false;
+
+        public bool MoveNext()
+        {
+            if (iterationNum >= (_count - 1)) return false;
+
+            if (started)
+                iterationNum += 1;
+            else
+                started = true;
+
+            return true;
+
+        }
+
+        public void Reset()
+        {
+            iterationNum = 0;
+            started = false;
+        }
+
+        public long Current => _start + iterationNum;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+
+        }
+    }
+}
+

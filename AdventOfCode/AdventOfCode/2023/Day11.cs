@@ -1,6 +1,4 @@
-﻿using AdventOfCode.Common;
-
-namespace AdventOfCode._2023
+﻿namespace AdventOfCode._2023
 {
     public class Day11
     {

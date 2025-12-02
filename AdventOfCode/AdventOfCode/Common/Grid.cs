@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace AdventOfCode.Common
+﻿namespace AdventOfCode.Common
 {
 
 

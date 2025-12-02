@@ -1,16 +1,4 @@
-﻿using AdventOfCode._2023;
-using AdventOfCode.Common;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing.Text;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode._2024
+﻿namespace AdventOfCode._2024
 {
     public static class Day11Solution
     {

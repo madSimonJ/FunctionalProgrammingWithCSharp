@@ -1,13 +1,4 @@
-﻿using AdventOfCode.Common;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode._2024
+﻿namespace AdventOfCode._2024
 {
 
     public readonly record struct Day05State

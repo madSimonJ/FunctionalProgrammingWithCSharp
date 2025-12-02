@@ -1,12 +1,4 @@
-﻿using AdventOfCode._2024;
-using AdventOfCode.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode._2024
+﻿namespace AdventOfCode._2024
 {
 
     public readonly record struct Day07State

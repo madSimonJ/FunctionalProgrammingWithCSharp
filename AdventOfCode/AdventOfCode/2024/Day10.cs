@@ -1,6 +1,4 @@
-﻿using AdventOfCode.Common;
-
-namespace AdventOfCode._2024
+﻿namespace AdventOfCode._2024
 {
 
     public static class Day10Solution
