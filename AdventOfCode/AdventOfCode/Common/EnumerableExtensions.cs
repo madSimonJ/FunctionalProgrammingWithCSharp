@@ -197,3 +197,60 @@ public static class LEnumerable
     }
 }
 
+public static class ULEnumerable
+{
+    public static IEnumerable<ulong> ULRange(ulong start, ulong count)
+    {
+        return count == 0 ? [] : new ULRangeIterator(start, count);
+    }
+
+    private sealed class ULRangeIterator(ulong start, ulong count) : IEnumerable<ulong>
+    {
+        private readonly ulong _start = start;
+        private readonly ulong _count = count;
+
+        public IEnumerator<ulong> GetEnumerator() =>
+            new ULRangeEnumerator(_start, _count);
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    private sealed class ULRangeEnumerator(ulong start, ulong count) : IEnumerator<ulong>
+    {
+        private readonly ulong _start = start;
+        private readonly ulong _count = count;
+        private ulong iterationNum = 0;
+        private bool started = false;
+
+        public bool MoveNext()
+        {
+            if (iterationNum >= (_count - 1)) return false;
+
+            if (started)
+                iterationNum += 1;
+            else
+                started = true;
+
+            return true;
+
+        }
+
+        public void Reset()
+        {
+            iterationNum = 0;
+            started = false;
+        }
+
+        public ulong Current => _start + iterationNum;
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+
+        }
+    }
+}

@@ -8,7 +8,7 @@
         public int Y { get; set; }
         public T Value { get; set; }
     }
-
+    
     public record Grid<T>
     {
         public GridPoint<T> this[int x, int y] => Points.SingleOrDefault(z => z.X == x && z.Y == y);
@@ -80,7 +80,7 @@
         {
             var returnValue = @this with
             {
-                Points = @this.Points.Select(x =>
+                Points = [.. @this.Points.Select(x =>
                     x with
                     {
                         Value = x.X.IsBetween(from.X, to.X) &&
@@ -88,9 +88,22 @@
                             ? update(x.Value, x.X, x.Y)
                             : x.Value
                     }
-                ).ToArray()
+                )]
             };
-            var s = returnValue.Points.Sum(x => x.Value as int?);
+            return returnValue;
+        }
+
+        public static Grid<T> UpdateGrid<T>(this Grid<T> @this, Func<T, int, int, T> update)
+        {
+            var returnValue = @this with
+            {
+                Points = [.. @this.Points.Select(x =>
+                    x with
+                    {
+                        Value = update(x.Value, x.X, x.Y)
+                    }
+                )]
+            };
             return returnValue;
         }
 
